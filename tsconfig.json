@@ -17,7 +17,10 @@
       "dom.iterable",
       "scripthost"
     ],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": [
+      "@types/jest"
+    ]
   },
   "include": [
     "vite.config.*",
@@ -25,6 +28,7 @@
     "docs/**/*",
     "docs/**/*.vue",
     "src/**/*",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "./jest-setup.ts"
   ]
 }

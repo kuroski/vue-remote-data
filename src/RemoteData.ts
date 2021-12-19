@@ -28,12 +28,17 @@ export const RemoteDataImpl = defineComponent({
     },
   },
   setup(props, { slots }) {
+    if (!props.remoteData)
+      throw new Error(
+        "(vue-remote-data) remote-data prop is required to make this component work."
+      );
+
     const propsAsRefs = toRefs(props);
     const remoteData = useRemoteData(propsAsRefs.remoteData);
 
     return () => {
       if ("combined" in slots && slots.combined) {
-        return slots.combined(remoteData);
+        return slots.combined(remoteData.value);
       }
 
       ["initial", "pending", "failure", "success"].forEach(
