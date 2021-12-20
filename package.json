@@ -44,7 +44,8 @@
     "preview:docs": "vite --config vite.docs.config.ts preview --port 5050",
     "typecheck": "vue-tsc --noEmit",
     "test": "jest --ci",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "prepublish": "pnpm build"
   },
   "dependencies": {
     "@devexperts/remote-data-ts": "^2.1.1",
