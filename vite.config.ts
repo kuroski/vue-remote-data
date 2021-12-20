@@ -4,6 +4,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import path from "path";
 
 export default defineConfig({
+  base: "/vue-remote-data/",
   plugins: [vue(), vueJsx()],
   optimizeDeps: {
     exclude: ["vue-demi"],
