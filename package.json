@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.x",
+    "@changesets/cli": "^2.19.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/vue": "next",
     "@types/jest": "^27.0.3",
