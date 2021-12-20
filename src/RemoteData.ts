@@ -17,10 +17,10 @@ export const RemoteDataImpl = defineComponent({
   props: {
     remoteData: {
       required: true,
-      type: Object as PropType<RD.RemoteData<Error, unknown>>,
+      type: Object as PropType<RD.RemoteData<unknown, unknown>>,
       validator: (
-        prop: RD.RemoteData<Error, unknown>
-      ): prop is RD.RemoteData<Error, unknown> =>
+        prop: RD.RemoteData<unknown, unknown>
+      ): prop is RD.RemoteData<unknown, unknown> =>
         RD.isFailure(prop) ||
         RD.isSuccess(prop) ||
         RD.isPending(prop) ||
@@ -45,7 +45,7 @@ export const RemoteDataImpl = defineComponent({
           )
       );
 
-      return RD.fold<Error, unknown, VNode[]>(
+      return RD.fold<unknown, unknown, VNode[]>(
         () => {
           if (!slots.initial)
             throw new Error('Missing slot "initial" in RemoteData component.');
@@ -75,13 +75,13 @@ export const RemoteData = RemoteDataImpl as unknown as {
   new (): {
     $props: AllowedComponentProps &
       ComponentCustomProps &
-      VNodeProps & { remoteData: RD.RemoteData<Error & unknown, unknown> };
+      VNodeProps & { remoteData: RD.RemoteData<unknown, unknown> };
   };
 
   $slots: {
     initial: () => VNode[];
     pending: () => VNode[];
     success: (success: unknown) => VNode[];
-    failure: (error: Error) => VNode[];
+    failure: (error: unknown) => VNode[];
   };
 };

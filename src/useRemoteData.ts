@@ -7,13 +7,13 @@ export type UnwrappedRefable<T> = T extends Refable<infer U> ? U : T;
 /**
  * Return type of `usePromise()`
  */
-export type UseRemoteData<E extends Error, A> = Ref<RemoteData<E, A>>;
+export type UseRemoteData<E, A> = Ref<RemoteData<E, A>>;
 
 /**
  * Returns the state of a Promise and observes the Promise if it's a Ref to
  * automatically update the state
  */
-export function useRemoteData<E extends Error, A = unknown>(
+export function useRemoteData<E = unknown, A = unknown>(
   remoteData: Refable<RemoteData<E, A>>
 ): UseRemoteData<E, A> {
   const remoteDataRef = ref<RemoteData<any, any>>(initial);
