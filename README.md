@@ -1,35 +1,98 @@
 # vue-remote-data
 
-This template should help get you started developing with Vue 3 in Vite.
+Handle [RemoteData](https://github.com/devexperts/remote-data-ts) with Vue components.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates.
-
-However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can run `Volar: Switch TS Plugin on/off` from VSCode command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## Installation
 
 ```sh
-npm install
+npm install vue-remote-data
+# or
+yarn add vue-remote-data
+# or
+pnpm install vue-remote-data
 ```
 
-### Compile and Hot-Reload for Development
+This project exposes a Vue component to deal with RemoteData, so you also have to install
 
 ```sh
-npm run dev
+pnpm install @devexperts/remote-data-ts
 ```
 
-### Type-Check, Compile and Minify for Production
+If you are using Vue 2, you also need to install `@vue/composition-api`:
 
 ```sh
-npm run build
+pnpm install @vue/composition-api
 ```
+
+## Usage
+
+### Component
+
+Vue Remote Data exposes a component named `RemoteData`, and each slots represents a possible state of a RemoteData:
+
+```vue
+<template>
+  <RemoteData :remote-data="userRemoteData">
+    <template v-slot:initial>
+      <!-- or: <template #initial> -->
+      <p>Nothing happened yet!</p>
+    </template>
+
+    <template v-slot:pending>
+      <!-- or: <template #pending> -->
+      <p>Loading...</p>
+    </template>
+
+    <template v-slot:failure="error">
+      <!-- or: <template #failure="error"> -->
+      <p>Oops: {{ error.message }}</p>
+    </template>
+
+    <template v-slot:success="user">
+      <!-- or: <template #success="user"> -->
+      <p>Welcome {{ user.name }}</p>
+    </template>
+  </RemoteData>
+</template>
+
+<script>
+import * as RD from "@devexperts/remote-data-ts";
+
+export default {
+  data: () => ({
+    userRemoteData: RD.initial,
+  }),
+  async created() {
+    this.userRemoteData = RD.pending;
+    this.userRemoteData = await this.getUser()
+      .then(RD.success)
+      .catch(RD.failure);
+  },
+};
+</script>
+```
+
+## API Reference
+
+### `RemoteData` component
+
+`RemoteData` will watch its prop `remote-data` and change its state accordingly.
+
+#### props
+
+| Name         | Description               | Type         |
+| ------------ | ------------------------- | ------------ |
+| `remoteData` | RemoteData to be resolved | `RemoteData` |
+
+#### slots
+
+| Name      | Description                                                          | Scope                   |
+| --------- | -------------------------------------------------------------------- | ----------------------- |
+| `initial` | Content to display before anything happens                           | -                       |
+| `pending` | Content to display while RemoteData is pending                       | -                       |
+| `failure` | Content to display if the RemoteData failed                          | `error`: Failure reason |
+| `success` | Content to display once the RemoteData has been successfully handled | `data`: Resulting data  |
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)

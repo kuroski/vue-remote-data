@@ -40,44 +40,6 @@ describe("RemoteData", () => {
     expect(screen.getByText("Oops, something went wrong")).toBeInTheDocument();
   });
 
-  test("user sees all states of a remote data with combined slots", async () => {
-    const remoteData = ref<RD.RemoteData<Error, string>>(RD.initial);
-    const view = render(RemoteData, {
-      props: {
-        remoteData,
-      },
-      slots: {
-        combined: (r: RD.RemoteData<Error, string>) =>
-          RD.fold(
-            () => "Nothing asked yet",
-            () => "Loading...",
-            (error: Error) => error.message,
-            (data: string) => data
-          )(r),
-      },
-    });
-
-    expect(screen.getByText("Nothing asked yet")).toBeInTheDocument();
-
-    remoteData.value = RD.pending;
-    await view.rerender({ remoteData });
-
-    expect(screen.queryByText("Nothing asked yet")).not.toBeInTheDocument();
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
-
-    remoteData.value = RD.success("Hello world");
-    await view.rerender({ remoteData });
-
-    expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
-    expect(screen.getByText("Hello world")).toBeInTheDocument();
-
-    remoteData.value = RD.failure(new Error("Oops, something went wrong"));
-    await view.rerender({ remoteData });
-
-    expect(screen.queryByText("Hello world")).not.toBeInTheDocument();
-    expect(screen.getByText("Oops, something went wrong")).toBeInTheDocument();
-  });
-
   mockWarn();
 
   it("throws an error if no remoteData provided", () => {
@@ -97,8 +59,10 @@ describe("RemoteData", () => {
     const remoteData = ref<RD.RemoteData<Error, string>>(RD.initial);
 
     expect(() =>
-render(RemoteData, { props: { remoteData } })).
-toThrowErrorMatchingInlineSnapshot(`"Missing slot \\"initial\\" in RemoteData component."`);
+      render(RemoteData, { props: { remoteData } })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Missing slot \\"initial\\" in RemoteData component."`
+    );
 
     expect(
       '(vue-remote-data) Missing slot "initial" in RemoteData component. This will fail in production.'

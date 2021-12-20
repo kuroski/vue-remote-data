@@ -37,10 +37,6 @@ export const RemoteDataImpl = defineComponent({
     const remoteData = useRemoteData(propsAsRefs.remoteData);
 
     return () => {
-      if ("combined" in slots && slots.combined) {
-        return slots.combined(remoteData.value);
-      }
-
       ["initial", "pending", "failure", "success"].forEach(
         (slotName) =>
           !slots[slotName] &&
@@ -87,7 +83,5 @@ export const RemoteData = RemoteDataImpl as unknown as {
     pending: () => VNode[];
     success: (success: unknown) => VNode[];
     failure: (error: Error) => VNode[];
-
-    combined: (arg: UseRemoteData<Error, unknown>) => VNode[];
   };
 };
