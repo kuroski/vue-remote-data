@@ -1,7 +1,6 @@
 {
   "name": "vue-remote-data",
   "version": "1.0.0",
-  "private": "false",
   "keywords": [
     "vue",
     "remote-data",
