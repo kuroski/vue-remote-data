@@ -1,4 +1,4 @@
-name: Test and build documentation page
+name: Test
 
 on:
   push:
@@ -29,13 +29,3 @@ jobs:
       - name: Test
         run: |
           pnpm test
-
-      - name: Build
-        run: |
-          pnpm build:docs
-
-      - name: Deploy to GH Page
-        uses: JamesIves/github-pages-deploy-action@4.1.1
-        with:
-          branch: gh-pages
-          folder: dist
