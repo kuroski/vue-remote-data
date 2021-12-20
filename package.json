@@ -1,6 +1,7 @@
 {
   "name": "vue-remote-data",
   "version": "1.0.0",
+  "private": "false",
   "keywords": [
     "vue",
     "remote-data",
@@ -42,10 +43,10 @@
     "dev": "vite",
     "preview": "vite preview --port 5050",
     "preview:docs": "vite --config vite.docs.config.ts preview --port 5050",
-    "typecheck": "vue-tsc --noEmit",
+    "prepublish": "pnpm build",
     "test": "jest --ci",
     "test:watch": "jest --watchAll",
-    "prepublish": "pnpm build"
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@devexperts/remote-data-ts": "^2.1.1",
